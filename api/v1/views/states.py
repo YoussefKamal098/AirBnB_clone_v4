@@ -2,46 +2,20 @@
 """
 This module sets up a Flask route to return a JSON list of all State objects.
 It also allows for GET, POST, PUT, and DELETE requests.
-
-- GET requests return a JSON representation of a State object or
-    a 404 error if the State object does not exist.
-
-- POST requests create a new State object. returns a 400 error if the request
-    is not JSON formatted or if the JSON body is missing a name key.
-
-- PUT requests update a State object. returns a 404 error if the
-    State object does not exist or if the request is not JSON formatted.
-
-
-- DELETE requests delete a State object. returns a 404 error
-    if the State object does not exist.
-
-All responses are JSON formatted.
-
-The following routes are defined:
-GET /states
-GET /states/<state_id>
-DELETE /states/<state_id>
-POST /states
-PUT /states/
-
-The following error codes are returned:
-404: Not found
-400: Not a JSON
-400: Missing name
-200: OK
-201: Created
 """
 
 from flask import jsonify, abort, request
+from flasgger import swag_from
 
 from models import storage
 from models.state import State
+
 
 from api.v1.views import app_views
 
 
 @app_views.route("/states/", methods=["GET"])
+@swag_from('documentation/state/all_states.yml')
 def get_states():
     """Return a JSON list of all State objects"""
     return jsonify([
@@ -51,6 +25,7 @@ def get_states():
 
 
 @app_views.route("/states/<state_id>", methods=["GET"])
+@swag_from('documentation/state/get_state.yml')
 def get_state(state_id):
     """Return a JSON representation of a State object"""
     state = storage.get(State, state_id)
@@ -61,6 +36,7 @@ def get_state(state_id):
 
 
 @app_views.route("/states/<state_id>", methods=["DELETE"])
+@swag_from('documentation/state/delete_state.yml')
 def delete_state(state_id):
     """Delete a State object"""
     state = storage.get(State, state_id)
@@ -74,6 +50,7 @@ def delete_state(state_id):
 
 
 @app_views.route("/states/", methods=["POST"])
+@swag_from('documentation/state/post_state.yml')
 def post_state():
     """Create a new State object"""
     state_data = request.get_json(silent=True)
@@ -90,6 +67,7 @@ def post_state():
 
 
 @app_views.route("/states/<state_id>", methods=["PUT"])
+@swag_from('documentation/state/put_state.yml')
 def put_state(state_id):
     """Update a State object"""
     state = storage.get(State, state_id)

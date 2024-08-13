@@ -1,0 +1,21 @@
+Check application status
+---
+summary: Check application status
+description: Returns a JSON object indicating the status of the application.
+operationId: getStatus
+tags:
+  - Status
+responses:
+  '200':
+    description: A status message
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: The status of the application
+              example: "OK"
+  '400':
+    description: Bad Request

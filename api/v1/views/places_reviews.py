@@ -45,6 +45,7 @@ Module Connections
 """
 
 from flask import jsonify, request, abort
+from flasgger import swag_from
 
 from models.place import Place
 from models.review import Review
@@ -55,6 +56,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
+@swag_from('documentation/review/get_reviews.yml')
 def get_reviews(place_id):
     """
     Retrieves the list of all Review objects of a Place.
@@ -71,6 +73,7 @@ def get_reviews(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'])
+@swag_from('documentation/review/get_review.yml')
 def get_review(review_id):
     """
     Retrieves a Review object.
@@ -86,6 +89,7 @@ def get_review(review_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
+@swag_from('documentation/review/delete_review.yml')
 def delete_review(review_id):
     """
     Deletes a Review object.
@@ -104,6 +108,7 @@ def delete_review(review_id):
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'])
+@swag_from('documentation/review/post_review.yml')
 def create_review(place_id):
     """
     Creates a new Review object.
@@ -141,6 +146,7 @@ def create_review(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
+@swag_from('documentation/review/put_review.yml')
 def update_review(review_id):
     """
     Updates a Review object.

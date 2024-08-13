@@ -1,0 +1,86 @@
+Search Places with a POST request.
+---
+tags:
+  - Places
+summary: Search for places
+description: |
+  Search for Place objects based on state, city, and amenity filters provided in the request JSON.
+  If the JSON is empty, returns all Place objects.
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    description: JSON object containing search parameters.
+    required: true
+    schema:
+      type: object
+      properties:
+        states:
+          type: array
+          items:
+            type: string
+          description: List of state IDs to filter by (OR logic).
+        cities:
+          type: array
+          items:
+            type: string
+          description: List of city IDs to filter by (OR logic).
+        amenities:
+          type: array
+          items:
+            type: string
+          description: List of amenity IDs to filter by (AND logic).
+      example:
+        states: ["state_id_1", "state_id_2"]
+        cities: ["city_id_1", "city_id_2"]
+        amenities: ["amenity_id_1", "amenity_id_2"]
+responses:
+  200:
+    description: A list of Place objects that match the search criteria.
+    schema:
+      type: array
+      items:
+        properties:
+          __class__:
+            type: string
+          created_at:
+            type: string
+            description: time of creation of the instance
+          updated_at:
+            type: string
+            description: time of last update of the instance
+          id:
+            type: string
+            description: The uuid of the state instance
+          description:
+            type: string
+            description: Description of the place
+          latitude:
+            type: number
+            description: Latitude of the place
+          longitude:
+            type: number
+            description: Longitude of the place
+          max_guest:
+            type: integer
+            description: Number of guests possible
+          name:
+            type: string
+            description: name of the place
+          number_bathrooms:
+            type: integer
+            description: Number of bathrooms
+          number_rooms:
+            type: integer
+            description: Number of rooms
+          price_by_night:
+            type: number
+            description: Price of the night
+          user_id:
+            type: string
+            description: uuid of the owner
+  400:
+    description: Bad Request - The request is not a valid JSON object.

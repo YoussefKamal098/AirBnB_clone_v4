@@ -2,42 +2,17 @@
 """
 This module sets up a Flask route to return a JSON list of all Amenity objects.
 It also allows for GET, POST, PUT, and DELETE requests.
-
-- GET requests return a JSON representation of an Amenity object
-    or a 404 error if the Amenity object does not exist.
-
-- POST requests create a new Amenity object.
-    it returns a 400 error if the request is not JSON formatted or
-    if the JSON body is missing a name key.
-
-- PUT requests update an Amenity object.
-    it returns a 404 error if the Amenity object does not exist
-    or if the request is not JSON formatted.
-
-- DELETE requests delete an Amenity object. it returns a 404 error if
-    the Amenity object does not exist.
-
-All responses are JSON formatted.
-
-The following routes are defined:
-GET /amenities GET /amenities/<amenity_id>
-DELETE /amenities/<amenity_id>
-POST /amenities PUT /amenities/
-
-The following error codes are returned:
-404: Not found
-400: Not a JSON
-400: Missing name
-200: OK
-201: Created
 """
 from flask import jsonify, abort, request
+from flasgger import swag_from
+
 from models import storage
 from models.amenity import Amenity
 from api.v1.views import app_views
 
 
 @app_views.route("/amenities", methods=["GET"])
+@swag_from('documentation/amenity/all_amenities.yml')
 def get_amenities():
     """Return a JSON list of all Amenity objects"""
     return jsonify([
@@ -47,6 +22,7 @@ def get_amenities():
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET"])
+@swag_from('documentation/amenity/get_amenity.yml')
 def get_amenity(amenity_id):
     """Return a JSON representation of an Amenity object"""
     amenity = storage.get(Amenity, amenity_id)
@@ -57,6 +33,7 @@ def get_amenity(amenity_id):
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"])
+@swag_from('documentation/amenity/delete_amenity.yml')
 def delete_amenity(amenity_id):
     """Delete an Amenity object"""
     amenity = storage.get(Amenity, amenity_id)
@@ -70,6 +47,7 @@ def delete_amenity(amenity_id):
 
 
 @app_views.route("/amenities/", methods=["POST"])
+@swag_from('documentation/amenity/post_amenity.yml')
 def post_amenity():
     """Create a new Amenity object"""
     amenity_data = request.get_json(silent=True)
@@ -86,6 +64,7 @@ def post_amenity():
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["PUT"])
+@swag_from('documentation/amenity/put_amenity.yml')
 def put_amenity(amenity_id):
     """Update an Amenity object"""
     amenity = storage.get(Amenity, amenity_id)

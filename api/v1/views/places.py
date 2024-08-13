@@ -5,6 +5,7 @@ It also allows for GET, POST, PUT, and DELETE requests. and it also searches
 for Place objects by state, city, and amenity linked to the Place.
 """
 from flask import jsonify, abort, request
+from flasgger import swag_from
 
 from models.user import User
 from models.city import City
@@ -15,6 +16,7 @@ from api.v1.views import app_views
 
 
 @app_views.route("/cities/<city_id>/places", methods=["GET"])
+@swag_from("documentation/place/get_places.yml")
 def get_places(city_id):
     """
     Return a JSON list of all Place objects in a City object with city_id.
@@ -34,6 +36,7 @@ def get_places(city_id):
 
 
 @app_views.route("/places/<place_id>", methods=["GET"])
+@swag_from("documentation/place/get_place.yml")
 def get_place(place_id):
     """
     Return a JSON representation of a Place object
@@ -49,6 +52,7 @@ def get_place(place_id):
 
 
 @app_views.route("/places/<place_id>", methods=["DELETE"])
+@swag_from("documentation/place/delete_place.yml")
 def delete_place(place_id):
     """
     Delete a Place object with place_id or 404 error if not found.
@@ -66,6 +70,7 @@ def delete_place(place_id):
 
 
 @app_views.route("/cities/<city_id>/places", methods=["POST"])
+@swag_from("documentation/place/post_place.yml")
 def post_place(city_id):
     """
     Create a new Place object in a City object with city_id.
@@ -98,6 +103,7 @@ def post_place(city_id):
 
 
 @app_views.route("/places/<place_id>", methods=["PUT"])
+@swag_from("documentation/place/put_place.yml")
 def put_place(place_id):
     """
     Update a Place object with place_id. Return 404 if not found.
@@ -120,6 +126,7 @@ def put_place(place_id):
 
 
 @app_views.route('/places_search', methods=['POST'])
+@swag_from('documentation/place/places_search.yml')
 def places_search():
     """
     Search for Place objects based on the JSON in the request.

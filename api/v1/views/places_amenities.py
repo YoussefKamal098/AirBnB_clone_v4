@@ -9,6 +9,7 @@ The module depends on the storage module from the models/engine package and
 the Amenity and Place classes from the models package.
 """
 from flask import jsonify, abort
+from flasgger import swag_from
 
 from models.amenity import Amenity
 from models.place import Place
@@ -18,6 +19,7 @@ from api.v1.views import app_views
 
 
 @app_views.route("/places/<place_id>/amenities", methods=["GET"])
+@swag_from("documentation/place_amenity/get_place_amenities.yml")
 def get_place_amenities(place_id):
     """
     Get a list of all Amenity objects in a Place object with
@@ -39,6 +41,7 @@ def get_place_amenities(place_id):
 @app_views.route(
     "/places/<place_id>/amenities/<amenity_id>", methods=["DELETE"]
 )
+@swag_from("documentation/place_amenity/delete_place_amenity.yml")
 def delete_place_amenity(place_id, amenity_id):
     """
     Delete an Amenity object from a Place object with a given id
@@ -65,6 +68,7 @@ def delete_place_amenity(place_id, amenity_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>", methods=["POST"])
+@swag_from("documentation/place_amenity/post_place_amenity.yml")
 def post_place_amenity(place_id, amenity_id):
     """
     Link an Amenity object to a Place object with a given id

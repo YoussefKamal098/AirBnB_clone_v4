@@ -1,0 +1,42 @@
+Retrieve object counts
+---
+summary: Retrieve object counts
+description: Returns a JSON object with the count of each type of object in the system.
+operationId: getStats
+tags:
+  - Stats
+responses:
+  '200':
+    description: A dictionary with object counts
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            users:
+              type: integer
+              description: The number of User objects
+              example: 25
+            places:
+              type: integer
+              description: The number of Place objects
+              example: 40
+            states:
+              type: integer
+              description: The number of State objects
+              example: 5
+            cities:
+              type: integer
+              description: The number of City objects
+              example: 30
+            amenities:
+              type: integer
+              description: The number of Amenity objects
+              example: 10
+            reviews:
+              type: integer
+              description: The number of Review objects
+              example: 15
+  '400':
+    description: Bad Request
+
